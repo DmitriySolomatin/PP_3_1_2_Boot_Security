@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div th:if="${users}">
+    <table>
+        <thead>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>lastName</td>
+            <td>age</td>
+            <td>edit</td>
+            <td>delete</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.age}"></td>
+            <td><a th:href="@{/admin/edit/__${user.id}__/}">Редактировать</a></td>
+            <td><a th:href="@{/admin/delete/__${user.id}__/}">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${user_for_edit}">
+    <form th:action="@{/admin/edit}" th:object="${user_for_edit}" th:method="post">
+        <div>
+            <label>Имя:
+                <input type="text" th:field="*{name}">
+            </label>
+            <label>Фамилия:
+                <input type="text" th:field="*{lastName}">
+            </label>
+            <label>Возраст:
+                <input type="text" th:field="*{age}">
+            </label>
+            <label>Пароль:
+                <input type="password" th:field="*{password}">
+            </label>
+            <label>Роли:
+                <select th:field="*{roles}" size="10" multiple="multiple">
+                    <option th:each="role : ${all_roles}"
+                            th:value="${{role}}"
+                            th:text="${role.name}">
+                    </option>
+                </select>
+            </label>
+            <input type="hidden" th:field="*{id}">
+        </div>
+        <div>
+            <button type="submit">Сохранить</button>
+        </div>
+    </form>
+</div>
+<div th:if="${user_model}">
+    <form th:action="@{/admin/add}" th:object="${user_model}" th:method="post">
+        <div>
+            <label>Имя:
+                <input type="text" th:field="*{name}">
+            </label>
+            <label>Фамилия:
+                <input type="text" th:field="*{lastName}">
+            </label>
+            <label>Возраст:
+                <input type="text" th:field="*{age}">
+            </label>
+            <label>Пароль:
+                <input type="password" th:field="*{password}">
+            </label>
+            <label>Роли:
+                <select th:field="*{roles}" size="10" multiple="multiple">
+                    <option th:each="role : ${all_roles}"
+                            th:value="${{role}}"
+                            th:text="${role.name}">
+                    </option>
+                </select>
+            </label>
+            <input type="hidden" th:field="*{id}">
+        </div>
+        <div>
+            <button type="submit">Добавить</button>
+        </div>
+    </form>
+</div>
+<div th:insert="fragments/logout :: logout"></div>
+</body>
+</html>

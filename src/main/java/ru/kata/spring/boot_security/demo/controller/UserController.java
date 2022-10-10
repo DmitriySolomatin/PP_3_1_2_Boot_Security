@@ -20,10 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    // ты тут используешь принципала , а зачем тогда в бд идешь? в нем достаточно данных для данной страницы
+    // - Так в Principal нет ни возраста, ни пароля. Только имя.
     @GetMapping(value = "")
     public String userPage(ModelMap model, Principal principal) {
         model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
-        model.addAttribute("roles", userService.loadUserByUsername(principal.getName()).getAuthorities());
+//        model.addAttribute("roles", userService.loadUserByUsername(principal.getName()).getAuthorities());
         return "user";
     }
 

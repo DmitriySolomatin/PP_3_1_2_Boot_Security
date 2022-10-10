@@ -25,11 +25,14 @@
     <div class="row">
         <aside class="col-2 py-4 px-0 bg-white">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <button th:if="${#lists.contains(me.roles, admin_role)}" th:classappend="${#lists.contains(me.roles, admin_role)} ? active : null" class="nav-link text-start" id="v-pills-home-tab" data-bs-toggle="pill"
+                <button th:if="${#lists.contains(me.roles, admin_role)}"
+                        th:classappend="${#lists.contains(me.roles, admin_role)} ? active : null"
+                        class="nav-link text-start" id="v-pills-home-tab" data-bs-toggle="pill"
                         data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
                         aria-selected="true">Admin
                 </button>
-                <button th:classappend="${#lists.contains(me.roles, admin_role)} ? null : active" class="nav-link text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
+                <button th:classappend="${#lists.contains(me.roles, admin_role)} ? null : active"
+                        class="nav-link text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
                         data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
                         aria-selected="false">User
                 </button>
@@ -38,7 +41,9 @@
 
         <main class="col-10 p-4" style="height: 100%;">
             <div class="tab-content" id="v-pills-tabContent">
-                <div th:if="${#lists.contains(me.roles, admin_role)}" th:classappend="${#lists.contains(me.roles, admin_role)} ? active : null" class="tab-pane fade show" id="v-pills-home" role="tabpanel"
+                <div th:if="${#lists.contains(me.roles, admin_role)}"
+                     th:classappend="${#lists.contains(me.roles, admin_role)} ? active : null"
+                     class="tab-pane fade show" id="v-pills-home" role="tabpanel"
                      aria-labelledby="v-pills-home-tab" tabindex="0">
                     <h2>Admin panel</h2>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -84,8 +89,10 @@
                                             <td>
                                                 <span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
                                             </td>
-                                            <td><a href="#" class="btn btn-info text-white" data-bs-toggle="modal" th:data-bs-target="'#edit_' + ${user.id}">Edit</a></td>
-                                            <td><a href="#" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#delete_' + ${user.id}">Delete</a></td>
+                                            <td><a href="#" class="btn btn-info text-white" data-bs-toggle="modal"
+                                                   th:data-bs-target="'#edit_' + ${user.id}">Edit</a></td>
+                                            <td><a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                                                   th:data-bs-target="'#delete_' + ${user.id}">Delete</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -97,7 +104,8 @@
                             <div class="card">
                                 <h5 class="card-header">Add new user</h5>
                                 <div class="card-body card-body row text-center justify-content-center">
-                                    <form class="col-6"  th:action="@{/admin/add}" th:object="${user_model}" th:method="post">
+                                    <form class="col-6" th:action="@{/admin/add}" th:object="${user_model}"
+                                          th:method="post">
                                         <div class="mb-3">
                                             <label th:for="*{name}" class="form-label fw-bold">First name
                                                 <input type="text" class="form-control" th:field="*{name}">
@@ -120,12 +128,13 @@
                                         </div>
                                         <div class="mb-3">
                                             <label th:for="*{password}" class="form-label fw-bold">Password
-                                                <input type="password" class="form-control"  th:field="*{password}">
+                                                <input type="password" class="form-control" th:field="*{password}">
                                             </label>
                                         </div>
                                         <div class="mb-3">
                                             <label th:for="*{roles}" class="form-label fw-bold">Role
-                                                <select th:field="*{roles}" class="form-select" multiple aria-label="Role">
+                                                <select th:field="*{roles}" class="form-select" multiple
+                                                        aria-label="Role">
                                                     <option th:each="role : ${all_roles}"
                                                             th:value="${{role}}"
                                                             th:text="${role.name}"></option>
@@ -140,7 +149,9 @@
                         </div>
                     </div>
                 </div>
-                <div th:classappend="${#lists.contains(me.roles, admin_role)} ? null : active" class="tab-pane fade show" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
+                <div th:classappend="${#lists.contains(me.roles, admin_role)} ? null : active"
+                     class="tab-pane fade show" id="v-pills-profile" role="tabpanel"
+                     aria-labelledby="v-pills-profile-tab"
                      tabindex="0">
                     <h2>User information-page</h2>
                     <div class="card">
@@ -182,7 +193,8 @@
 
     <div th:each="user : ${users}">
         <!-- Модальное окно - Редактировать -->
-        <div class="modal fade" th:id="'edit_' + ${user.id}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal fade" th:id="'edit_' + ${user.id}" tabindex="-1" aria-labelledby="editModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -190,7 +202,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="text-center" th:action="@{/admin/edit}" th:object="${user}" th:method="post" th:id="'edit_form_' + ${user.id}">
+                        <form class="text-center" th:action="@{/admin/edit}" th:object="${user}" th:method="post"
+                              th:id="'edit_form_' + ${user.id}">
                             <div class="mb-3">
                                 <label th:for="*{id}" class="form-label fw-bold">ID
                                     <input type="text" class="form-control" th:value="*{id}" id="id" name="id">
@@ -203,7 +216,8 @@
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{lastName}" class="form-label fw-bold">Last name
-                                    <input type="text" class="form-control" th:value="*{lastName}" id="lastName" name="lastName">
+                                    <input type="text" class="form-control" th:value="*{lastName}" id="lastName"
+                                           name="lastName">
                                 </label>
                             </div>
                             <div class="mb-3">
@@ -213,17 +227,20 @@
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{email}" class="form-label fw-bold">Email
-                                    <input type="email" class="form-control" th:value="*{email}" id="email" name="email">
+                                    <input type="email" class="form-control" th:value="*{email}" id="email"
+                                           name="email">
                                 </label>
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{password}" class="form-label fw-bold">Password
-                                    <input type="password" class="form-control" th:value="*{password}" id="password" name="password">
+                                    <input type="password" class="form-control" th:value="*{password}" id="password"
+                                           name="password">
                                 </label>
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{roles}" class="form-label fw-bold">Role
-                                    <select th:value="*{roles}" id="roles" name="roles" class="form-select" multiple aria-label="Role">
+                                    <select th:value="*{roles}" id="roles" name="roles" class="form-select" multiple
+                                            aria-label="Role">
                                         <option th:each="role : ${all_roles}"
                                                 th:value="${{role}}"
                                                 th:text="${role.name}"></option>
@@ -244,7 +261,8 @@
     <!-- Модальное окно - Удалить -->
     <div th:each="user : ${users}">
         <!-- Модальное окно - Редактировать -->
-        <div class="modal fade" th:id="'delete_' + ${user.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal fade" th:id="'delete_' + ${user.id}" tabindex="-1" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -252,7 +270,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="text-center" th:action="@{/admin/delete}" th:object="${user}" th:method="post" th:id="'delete_form_' + ${user.id}">
+                        <form class="text-center" th:action="@{/admin/delete}" th:object="${user}" th:method="post"
+                              th:id="'delete_form_' + ${user.id}">
                             <div class="mb-3">
                                 <label th:for="*{id}" class="form-label fw-bold">ID
                                     <input type="text" class="form-control" th:value="*{id}" id="id" name="id">
@@ -265,7 +284,8 @@
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{lastName}" class="form-label fw-bold">Last name
-                                    <input type="text" class="form-control" th:value="*{lastName}" id="lastName" name="lastName">
+                                    <input type="text" class="form-control" th:value="*{lastName}" id="lastName"
+                                           name="lastName">
                                 </label>
                             </div>
                             <div class="mb-3">
@@ -275,17 +295,20 @@
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{email}" class="form-label fw-bold">Email
-                                    <input type="email" class="form-control" th:value="*{email}" id="email" name="email">
+                                    <input type="email" class="form-control" th:value="*{email}" id="email"
+                                           name="email">
                                 </label>
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{password}" class="form-label fw-bold">Password
-                                    <input type="password" class="form-control" th:value="*{password}" id="password" name="password">
+                                    <input type="password" class="form-control" th:value="*{password}" id="password"
+                                           name="password">
                                 </label>
                             </div>
                             <div class="mb-3">
                                 <label th:for="*{roles}" class="form-label fw-bold">Role
-                                    <select th:value="*{roles}" id="roles" name="roles" class="form-select" multiple aria-label="Role">
+                                    <select th:value="*{roles}" id="roles" name="roles" class="form-select" multiple
+                                            aria-label="Role">
                                         <option th:each="role : ${all_roles}"
                                                 th:value="${{role}}"
                                                 th:text="${role.name}"></option>
@@ -297,7 +320,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" th:form="'delete_form_' + ${user.id}" class="btn btn-danger">Delete</button>
+                        <button type="submit" th:form="'delete_form_' + ${user.id}" class="btn btn-danger">Delete
+                        </button>
                     </div>
                 </div>
             </div>

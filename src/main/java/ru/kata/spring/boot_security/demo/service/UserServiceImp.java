@@ -56,13 +56,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
     }
 
+
+
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
-        //Чтобы не ставить EAGER и не делать руками JOIN, а решить при помощи @Transactional
-        user.getAuthorities();
-        return user;
+        return userRepository.findByNameWithRoles(username);
     }
 
 }

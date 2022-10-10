@@ -7,7 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
-        //Зачем этот класс вообще нужен?
+        //Аналоги компонентов @Controller, если нужно просто отдать статику?
+        registry.addViewController("/").setViewName("index");
 //        registry.addViewController("/user").setViewName("user");
 //        registry.addViewController("/admin").setViewName("admin");
     }

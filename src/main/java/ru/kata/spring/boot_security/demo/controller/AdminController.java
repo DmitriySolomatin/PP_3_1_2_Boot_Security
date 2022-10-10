@@ -31,7 +31,7 @@ public class AdminController {
         model.addAttribute("me", userService.loadUserByUsername(principal.getName()));
         model.addAttribute("all_roles", roleService.getRoles());
         model.addAttribute("admin_role", roleService.getRoleByName("ROLE_ADMIN"));
-        return "index";
+        return "profile";
     }
 
     @PostMapping(value = "/delete")

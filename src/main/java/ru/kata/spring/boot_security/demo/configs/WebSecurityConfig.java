@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index", "style.css").permitAll()
                 //Если есть роль
                 .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
-                .antMatchers("/user", "/user/**").hasRole("USER")
+                .antMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
                 //Все остальные страницы требуют авторизацию
                 .anyRequest().authenticated()
                 .and()

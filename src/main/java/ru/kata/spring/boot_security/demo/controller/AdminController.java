@@ -18,13 +18,11 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImp userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserServiceImp userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping(value = "")
@@ -46,9 +44,6 @@ public class AdminController {
 
     @PostMapping(value = "/add")
     public String addUser(ModelMap model, @ModelAttribute User user) {
-        if (!user.getPassword().isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        }
         userService.addUser(user);
         model.addAttribute("users", userService.getUserList(100));
         model.addAttribute("user_model", new User());

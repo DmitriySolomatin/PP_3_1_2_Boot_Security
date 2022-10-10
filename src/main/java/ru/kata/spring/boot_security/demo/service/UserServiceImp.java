@@ -59,7 +59,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByNameWithRoles(username);
+        return userRepository.findByUsernameWithRoles(username);
     }
 
 }

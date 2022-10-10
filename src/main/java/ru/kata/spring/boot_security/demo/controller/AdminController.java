@@ -9,13 +9,14 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserService userService;
+    private final UserServiceImp userService;
     private final RoleService roleService;
 
     @Autowired
@@ -25,45 +26,31 @@ public class AdminController {
     }
 
     @GetMapping(value = "")
-    public String adminPage(ModelMap model, @RequestParam("count") Optional<Integer> count) {
+    public String adminPage(ModelMap model, @RequestParam("count") Optional<Integer> count, Principal principal) {
         model.addAttribute("users", userService.getUserList(count.orElse(100)));
         model.addAttribute("user_model", new User());
+        model.addAttribute("me", userService.loadUserByUsername(principal.getName()));
         model.addAttribute("all_roles", roleService.getRoles());
-        return "admin";
+        model.addAttribute("admin_role", roleService.getRoleByName("ROLE_ADMIN"));
+        return "index";
     }
 
-    @GetMapping(value = "/delete/{id}")
-    public String deleteUser(ModelMap model, @PathVariable long id) {
-        userService.deleteUser(id);
-        model.addAttribute("users", userService.getUserList(100));
-        model.addAttribute("user_model", new User());
-        model.addAttribute("all_roles", roleService.getRoles());
-        return "admin";
+    @PostMapping(value = "/delete")
+    public String deleteUser(ModelMap model, @ModelAttribute User user) {
+        userService.deleteUser(user.getId());
+        return "redirect:/admin";
     }
 
     @PostMapping(value = "/add")
     public String addUser(ModelMap model, @ModelAttribute User user) {
         userService.addUser(user);
-        model.addAttribute("users", userService.getUserList(100));
-        model.addAttribute("user_model", new User());
-        model.addAttribute("all_roles", roleService.getRoles());
-        return "admin";
-    }
-
-    @GetMapping(value = "/edit/{id}")
-    public String editUserPage(ModelMap model, @PathVariable long id) {
-        model.addAttribute("user_for_edit", userService.getUserById(id));
-        model.addAttribute("all_roles", roleService.getRoles());
-        return "admin";
+        return "redirect:/admin";
     }
 
     @PostMapping(value = "/edit")
     public String editUser(ModelMap model, @ModelAttribute User user) {
         userService.updateUser(user);
-        model.addAttribute("users", userService.getUserList(100));
-        model.addAttribute("user_model", new User());
-        model.addAttribute("all_roles", roleService.getRoles());
-        return "admin";
+        return "redirect:/admin";
     }
 
 }

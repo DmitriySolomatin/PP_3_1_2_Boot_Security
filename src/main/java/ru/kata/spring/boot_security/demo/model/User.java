@@ -17,6 +17,9 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
+    private String email;
+
+    @Column
     private String name;
 
     @Column(name = "last_name")
@@ -51,6 +54,14 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -93,8 +104,14 @@ public class User implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return age == user.age && name.equals(user.name) && lastName.equals(user.lastName);
+
+        if (age != user.age) return false;
+        if (!email.equals(user.email)) return false;
+        if (!name.equals(user.name)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        return roles.equals(user.roles);
     }
 
     @Override
@@ -114,7 +131,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override

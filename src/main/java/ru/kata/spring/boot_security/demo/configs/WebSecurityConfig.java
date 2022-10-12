@@ -24,12 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 //Запрашивать авторизацию
                 .authorizeRequests()
                 //Доступ открыт всем
                 .antMatchers("/", "/index", "style.css").permitAll()
                 //Если есть роль
-                .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/current").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin", "/admin/**", "/api/**").hasRole("ADMIN")
                 .antMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
                 //Все остальные страницы требуют авторизацию
                 .anyRequest().authenticated()

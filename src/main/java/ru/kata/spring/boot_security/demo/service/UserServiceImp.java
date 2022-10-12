@@ -33,8 +33,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public void deleteUser(long id) {
-        userRepository.delete(getUserById(id));
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     @Transactional
@@ -46,6 +46,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Transactional
     public void updateUser(User user) {
         cryptPassword(user);
+
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(userRepository.getById(user.getId()).getPassword());
+        }
+
         userRepository.save(user);
     }
 

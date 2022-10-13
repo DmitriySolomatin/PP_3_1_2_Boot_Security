@@ -26,13 +26,13 @@ public class RestAdminController {
     }
 
     @GetMapping(value = "/users")
-    public List<User> getUsers() {
-        return userService.getUserList(100);
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.ok(userService.getUserList(100));
     }
 
     @GetMapping(value = "/roles")
-    public List<Role> getRoles() {
-        return roleService.getRoles();
+    public ResponseEntity<List<Role>> getRoles() {
+        return ResponseEntity.ok(roleService.getRoles());
     }
 
     @GetMapping(value = "/current")

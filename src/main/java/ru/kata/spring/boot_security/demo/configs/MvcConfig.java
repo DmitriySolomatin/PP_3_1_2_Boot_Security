@@ -9,7 +9,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         //Аналоги компонентов @Controller, если нужно просто отдать статику?
         registry.addViewController("/").setViewName("index");
-//        registry.addViewController("/user").setViewName("user");
-//        registry.addViewController("/admin").setViewName("admin");
+        registry.addViewController("/user").setViewName("profile");
+        registry.addViewController("/admin").setViewName("profile");
     }
 }

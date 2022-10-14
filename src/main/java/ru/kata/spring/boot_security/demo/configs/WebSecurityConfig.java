@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Запрашивать авторизацию
                 .authorizeRequests()
                 //Доступ открыт всем
-                .antMatchers("/", "/index", "style.css").permitAll()
+                .antMatchers("/", "/index", "/registration", "/api/registration", "/css/**", "/js/**").permitAll()
                 //Если есть роль
                 .antMatchers("/api/current").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin", "/admin/**", "/api/**").hasRole("ADMIN")
@@ -68,4 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
+
+
 }

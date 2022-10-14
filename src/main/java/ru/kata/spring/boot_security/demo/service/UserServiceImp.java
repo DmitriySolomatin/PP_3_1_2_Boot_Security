@@ -8,20 +8,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final EmailService emailService;
+    private final RoleService roleService;
+
     @Autowired
-    public UserServiceImp(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImp(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService, EmailService emailService1, RoleService roleService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailService = emailService1;
+        this.roleService = roleService;
     }
 
     public User getUserById(long id) {
@@ -43,6 +51,14 @@ public class UserServiceImp implements UserService, UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
+    public void registerUser(User user) {
+        addRole(user, "ROLE_USER");
+        user.setRawPassword(user.getPassword());
+        addUser(user);
+        emailService.sendRegistrationInfo(user, user.getRawPassword());
+    }
+
     @Transactional
     public void updateUser(User user) {
         cryptPassword(user);
@@ -61,10 +77,19 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
     }
 
+    @Override
+    public void addRole(User user, String roleName) {
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.getRoleByName(roleName));
+        user.setRoles(roles);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsernameWithRoles(username);
     }
 
+    public User getUserByName(String name) {
+        return userRepository.findByUsernameWithRoles(name);
+    }
 }

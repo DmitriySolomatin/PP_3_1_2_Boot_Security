@@ -14,8 +14,14 @@ public interface UserService {
 
     void addUser(User user);
 
+    void registerUser(User user);
+
     void updateUser(User user);
 
     void cryptPassword(User user);
+
+    void addRole(User user, String roleName);
+
+    User getUserByName(String name);
 
 }

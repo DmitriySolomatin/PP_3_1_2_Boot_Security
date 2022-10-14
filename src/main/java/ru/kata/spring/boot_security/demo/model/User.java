@@ -33,6 +33,9 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    @Transient
+    private String rawPassword;
+
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -100,6 +103,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getRawPassword() {
+        return rawPassword;
+    }
+
+    public void setRawPassword(String rawPassword) {
+        this.rawPassword = rawPassword;
     }
 
     @Override

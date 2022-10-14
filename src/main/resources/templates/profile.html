@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Index</title>
-    <link href="/bootstrap.min.css" rel="stylesheet">
-    <link href="/style.css" rel="stylesheet">
+    <title>Profile</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <header>
@@ -15,7 +15,9 @@
             with roles:
             <span id="me_roles"></span>
         </span>
-        <div class="navbar-text"><a class="navbar-link" href="/logout">Logout</a></div>
+        <div class="navbar-text">
+            <a class="navbar-link" href="/logout">Logout</a>
+        </div>
     </nav>
 
 </header>
@@ -33,6 +35,10 @@
                 <button class="nav-link text-start" id="v-pills-profile-tab" data-bs-toggle="pill"
                         data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
                         aria-selected="false">User
+                </button>
+                <button class="nav-link text-start" id="v-pills-profile-adult" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-adult" type="button" role="tab" aria-controls="v-pills-adult"
+                        aria-selected="false">Adult
                 </button>
             </div>
         </aside>
@@ -176,6 +182,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade show" id="v-pills-adult" role="tabpanel"
+                     aria-labelledby="v-pills-profile-tab"
+                     tabindex="0">
+                    <div class="card">
+                        <h5 class="card-header">Adult</h5>
+                        <div class="card-body">
+                            <div class="alert alert-success" style="display: none" id="alert_success" role="alert">
+                                ENJOY BUDDY!
+                            </div>
+                            <div class="alert alert-danger" style="display: none" id="alert_error" role="alert">
+                                U R TOO SMALL!
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -299,7 +320,7 @@
     </div>
 
 </div>
-<script src="/bootstrap.bundle.min.js"></script>
-<script src="/app.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>

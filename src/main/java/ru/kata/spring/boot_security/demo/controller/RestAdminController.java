@@ -65,7 +65,7 @@ public class RestAdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping(value = "registration")
+    @PostMapping(value = "/registration")
     public ResponseEntity<HttpStatus> registerUser(@ModelAttribute User user, HttpServletRequest request) {
         userService.registerUser(user);
         try {

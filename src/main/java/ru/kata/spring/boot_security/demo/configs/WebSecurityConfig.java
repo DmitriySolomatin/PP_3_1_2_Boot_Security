@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ открыт всем
                 .antMatchers("/", "/index", "/registration", "/api/registration", "/css/**", "/js/**").permitAll()
                 //Если есть роль
-                .antMatchers("/api/current").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/current", "/api/adult").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin", "/admin/**", "/api/**").hasRole("ADMIN")
                 .antMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
                 //Все остальные страницы требуют авторизацию

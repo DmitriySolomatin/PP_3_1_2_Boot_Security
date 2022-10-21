@@ -1,24 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    document.getElementById("v-pills-profile-adult").addEventListener("click", function () {
-        fetch("http://localhost:8080/api/adult", {method: "GET"})
-            .then((response) => response.json())
-            .then(function (response) {
-                if (response.success === true) {
-                    document.getElementById("alert_success").style.display = 'block';
-                } else {
-                    document.getElementById("alert_error").style.display = 'block';
-                }
 
-                setTimeout(function () {   //  call a 3s setTimeout when the loop is called
-                    window.location.replace(response.url);
-                }, 3000)
-            });
-    })
 
     let is_admin = false;
 
     if (window.location.pathname === "/user" || window.location.pathname === "/admin") {
+        document.getElementById("v-pills-profile-adult").addEventListener("click", function () {
+            fetch("http://localhost:8080/api/adult", {method: "GET"})
+                .then((response) => response.json())
+                .then(function (response) {
+                    console.log(response);
+                    if (response.success === true) {
+                        document.getElementById("alert_success").style.display = 'block';
+                    } else {
+                        document.getElementById("alert_error").style.display = 'block';
+                    }
+
+                    setTimeout(function () {   //  call a 3s setTimeout when the loop is called
+                        window.location.replace(response.url);
+                    }, 3000)
+                });
+        })
+
         //Получим текущего пользователя
         fetch("http://localhost:8080/api/current")
             .then((response) => response.json())

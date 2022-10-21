@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 
-
     let is_admin = false;
 
     if (window.location.pathname === "/user" || window.location.pathname === "/admin") {

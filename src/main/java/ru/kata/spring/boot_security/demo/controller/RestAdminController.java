@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.AdultUrl;
@@ -15,7 +16,6 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -43,8 +43,9 @@ public class RestAdminController {
     }
 
     @GetMapping(value = "/current")
-    public ResponseEntity<UserDetails> currentUser(Principal principal) {
-        return ResponseEntity.ok(userService.loadUserByUsername(principal.getName()));
+    public ResponseEntity<UserDetails> currentUser(@AuthenticationPrincipal User user) {
+        System.out.println(user);
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping(value = "/delete")
@@ -77,8 +78,8 @@ public class RestAdminController {
     }
 
     @GetMapping(value = "/adult")
-    public ResponseEntity<AdultUrl> showAdult(Principal principal) {
-        return ResponseEntity.ok(adultService.returnAdultUrl(userService.getUserByName(principal.getName())));
+    public ResponseEntity<AdultUrl> showAdult(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(adultService.returnAdultUrl(user));
     }
 
 

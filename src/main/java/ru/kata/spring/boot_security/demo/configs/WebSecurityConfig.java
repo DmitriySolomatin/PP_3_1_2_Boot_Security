@@ -1,20 +1,15 @@
 package ru.kata.spring.boot_security.demo.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
@@ -25,9 +20,12 @@ public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
     private final UserService userService;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImp userService) {
+    private final AgeFilter ageFilter;
+
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImp userService, AgeFilter ageFilter) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
+        this.ageFilter = ageFilter;
     }
 
 
@@ -51,10 +49,10 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService)
+    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailService)
+                .userDetailsService(userService)
                 .passwordEncoder(bCryptPasswordEncoder)
                 .and()
                 .build();
@@ -63,7 +61,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.
-                csrf().disable()
+                csrf().disable().addFilterAfter(ageFilter, FilterSecurityInterceptor.class)
                 //Запрашивать авторизацию
                 .authorizeRequests()
                 //Доступ открыт всем
@@ -85,6 +83,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
 
 }
